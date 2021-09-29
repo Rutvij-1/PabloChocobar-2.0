@@ -1,11 +1,8 @@
 import os
 import discord
 from dotenv import load_dotenv
-if True:
-    os.system(
-        "cp Codeforces-Practice-Ladders/personalised.py Codeforces-Practice-Ladders/script.py .")
-    from personalised import *
-    from script import *
+from personalised import *
+from script import *
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
