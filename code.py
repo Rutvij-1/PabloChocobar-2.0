@@ -28,8 +28,8 @@ async def process_msg(message):
     print(msg)
 
     if len(msg) < 3 or len(msg) > 5:
-        print("Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>")
-        reply = "`Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>`"
+        print("Usage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>")
+        reply = "`Usage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>`"
         return reply, reply, reply  # error criteria
     else:
         personalised = True
@@ -46,8 +46,8 @@ async def process_msg(message):
                 max_rating = msg[3]
             else:
                 print(
-                    "Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>")
-                reply = "`Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>`"
+                    "Usage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>")
+                reply = "`Usage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>`"
                 return reply, reply, reply  # error criteria
         print("handle:", handle)
         print("min_rating:", min_rating)
@@ -71,16 +71,16 @@ async def on_message(message):
         return
 
     if message.content.startswith('-help'):
-        ret = "```-help: Get this message\n\nUsage: -gimme <handle> <rating>\nUsage: -gimme <handle> <min_rating> <max_rating>\nUsage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>\n```"
+        ret = "```-help: Get this message\n\nUsage: -suggest <handle> <rating>\nUsage: -suggest <handle> <min_rating> <max_rating>\nUsage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>\n```"
         await message.channel.send(ret)
 
-    if message.content.startswith('-gimme'):
+    if message.content.startswith('-suggest'):
         name, link, progress = await process_msg(message.content)
         # await message.channel.send('I read ' + message.content)
 
         # Error condition
         if name == link and link == progress:
-            await message.channel.send("```\nUsage: -gimme <handle> <rating>\nUsage: -gimme <handle> <min_rating> <max_rating>\nUsage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>\n```")
+            await message.channel.send("```\nUsage: -suggest <handle> <rating>\nUsage: -suggest <handle> <min_rating> <max_rating>\nUsage: -suggest <handle> <min_rating> <max_rating> <generalised(optional)>\n```")
         else:
             ret = name+'\n'+progress+'\n'+link
             await message.channel.send(ret)
