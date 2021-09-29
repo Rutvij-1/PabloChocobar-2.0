@@ -1,17 +1,20 @@
 import os
 import sys
 import discord
+from dotenv import load_dotenv
 if True:
     sys.path.insert(0, 'Codeforces-Practice-Ladders')
     from personalised import *
     from script import *
 
-client = discord.Client()
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-client.run(TOKEN)
+client = discord.Client()
 
 
 async def get_problems(handle, min_rating, max_rating, personalised=True):
+    min_rating = int(min_rating)
+    max_rating = int(max_rating)
     contests = fetch_contests()
     total_problems = fetch_total_problems(contests, min_rating, max_rating)
     problems_finished = fetch_user_solves(handle)
@@ -20,6 +23,7 @@ async def get_problems(handle, min_rating, max_rating, personalised=True):
             total_problems, problems_finished)
     else:
         name, link, progress, url = search(total_problems, problems_finished)
+    return name, link, progress
 
 
 async def process_msg(message):
@@ -48,13 +52,13 @@ async def process_msg(message):
                     "Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>")
                 reply = "`Usage: -gimme <handle> <min_rating> <max_rating> <generalised(optional)>`"
                 return reply, reply, reply  # error criteria
-        print("handle: " + handle)
-        print("min_rating: " + min_rating)
-        print("max_rating: " + max_rating)
-        print("Personalised", personalised)
+        print("handle:", handle)
+        print("min_rating:", min_rating)
+        print("max_rating:", max_rating)
+        print("Personalised:", personalised)
 
         # obj = subprocess.Popen('python3 z.py ' + handle + ' ' + min_rating + ' ' + max_rating, shell=True)
-        name, link, progress = get_problems(
+        name, link, progress = await get_problems(
             handle, min_rating, max_rating, personalised)
         return name, link, progress
 
@@ -83,3 +87,5 @@ async def on_message(message):
         else:
             ret = name+'\n'+progress+'\n'+link
             await message.channel.send(ret)
+
+client.run(TOKEN)
