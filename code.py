@@ -3,7 +3,7 @@ import sys
 import discord
 from dotenv import load_dotenv
 if True:
-    sys.path.insert(0, 'Codeforces-Practice-Ladders')
+    sys.path.insert('Codeforces-Practice-Ladders')
     from personalised import *
     from script import *
 
